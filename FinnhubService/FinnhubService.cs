@@ -16,7 +16,7 @@ namespace  Services
             _configuration = configuration;
         }
 
-        public Dictionary<string, object> GetCompanyProfile(string stockSymbol)
+        public async Task< Dictionary<string, object>> GetCompanyProfile(string stockSymbol)
         {
             // Create new client
             using(HttpClient Client = _httpClientFactory.CreateClient())
@@ -28,9 +28,9 @@ namespace  Services
                     RequestUri = new Uri($"https://finnhub.io/api/v1/stock/profile2?symbol={stockSymbol}&token={_configuration["finnhubtoken"]}")
                 };
                 //  send request and get response
-                HttpResponseMessage httpResponseMessage = Client.Send(httpRequestMessage);
+                HttpResponseMessage httpResponseMessage = await Client.SendAsync(httpRequestMessage);
                 // read response as stream 
-                string responsebody = new StreamReader(httpResponseMessage.Content.ReadAsStream()).ReadToEnd();
+                string responsebody = new StreamReader( await httpResponseMessage.Content.ReadAsStreamAsync()).ReadToEnd();
                 // Deserialize json to dictionary
                 Dictionary<string,object>? result = JsonSerializer.Deserialize<Dictionary<string,object>>(responsebody);
                 // handle errors 
@@ -47,7 +47,7 @@ namespace  Services
                 
         }
 
-        public Dictionary<string, object>? GetStockPriceQuote(string stockSymbol)
+        public async Task< Dictionary<string, object>?> GetStockPriceQuote(string stockSymbol)
         {
             using (HttpClient Client = _httpClientFactory.CreateClient())
             {
@@ -56,8 +56,8 @@ namespace  Services
                     Method = HttpMethod.Get,
                     RequestUri = new Uri($"https://finnhub.io/api/v1/quote?symbol={stockSymbol}&token={_configuration["finnhubtoken"]}")
                 };
-                HttpResponseMessage httpResponseMessage = Client.Send(httpRequestMessage);
-                string responsebody = new StreamReader(httpResponseMessage.Content.ReadAsStream()).ReadToEnd();
+                HttpResponseMessage httpResponseMessage = await Client.SendAsync(httpRequestMessage);
+                string responsebody = new StreamReader(await httpResponseMessage.Content.ReadAsStreamAsync()).ReadToEnd();
                 Dictionary<string, object>? result = JsonSerializer.Deserialize<Dictionary<string, object>>(responsebody);
                 if (result == null)
                 {

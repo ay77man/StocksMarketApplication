@@ -36,7 +36,7 @@ namespace StockMarketSolution.Controllers
 
         [Route("/")]
         [Route("~/Trade/index")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             //reset stock symbol if not exists
             if (string.IsNullOrEmpty(_tradingOptions.DefaultStockSymbol))
@@ -44,10 +44,10 @@ namespace StockMarketSolution.Controllers
 
 
             //get company profile from API server
-            Dictionary<string, object>? companyProfileDictionary = _finnhubService.GetCompanyProfile(_tradingOptions.DefaultStockSymbol);
+            Dictionary<string, object>? companyProfileDictionary = await _finnhubService.GetCompanyProfile(_tradingOptions.DefaultStockSymbol);
 
             //get stock price quotes from API server
-            Dictionary<string, object>? stockQuoteDictionary = _finnhubService.GetStockPriceQuote(_tradingOptions.DefaultStockSymbol);
+            Dictionary<string, object>? stockQuoteDictionary = await _finnhubService.GetStockPriceQuote(_tradingOptions.DefaultStockSymbol);
 
 
             //create model object
@@ -68,7 +68,7 @@ namespace StockMarketSolution.Controllers
 
         [Route("~/Trade/BuyOrder")]
         [HttpPost]
-        public IActionResult BuyOrder(BuyOrderRequest buyOrderRequest)
+        public async Task<IActionResult> BuyOrder(BuyOrderRequest buyOrderRequest)
         {
             //update date of order
             buyOrderRequest.DateAndTimeOfOrder = DateTime.Now;
@@ -86,7 +86,7 @@ namespace StockMarketSolution.Controllers
             }
 
             //invoke service method
-            BuyOrderResponse buyOrderResponse = _stocksService.CreateBuyOrder(buyOrderRequest);
+            BuyOrderResponse buyOrderResponse = await _stocksService.CreateBuyOrder(buyOrderRequest);
 
             return RedirectToAction(nameof(Orders));
         }
@@ -94,7 +94,7 @@ namespace StockMarketSolution.Controllers
 
         [Route("~/Trade/SellOrder")]
         [HttpPost]
-        public IActionResult SellOrder(SellOrderRequest sellOrderRequest)
+        public async Task<IActionResult> SellOrder(SellOrderRequest sellOrderRequest)
         {
             //update date of order
             sellOrderRequest.DateAndTimeOfOrder = DateTime.Now;
@@ -111,18 +111,18 @@ namespace StockMarketSolution.Controllers
             }
 
             //invoke service method
-            SellOrderResponse sellOrderResponse = _stocksService.CreateSellOrder(sellOrderRequest);
+            SellOrderResponse sellOrderResponse =await _stocksService.CreateSellOrder(sellOrderRequest);
 
             return RedirectToAction(nameof(Orders));
         }
 
-
+        [HttpGet]
         [Route("~/Trade/Orders")]
-        public IActionResult Orders()
+        public async Task<IActionResult> Orders()
         {
             //invoke service methods
-            List<BuyOrderResponse> buyOrderResponses = _stocksService.GetBuyOrders();
-            List<SellOrderResponse> sellOrderResponses = _stocksService.GetSellOrders();
+            List<BuyOrderResponse> buyOrderResponses =await _stocksService.GetBuyOrders();
+            List<SellOrderResponse> sellOrderResponses =await _stocksService.GetSellOrders();
 
             //create model object
             Orders orders = new Orders() { BuyOrders = buyOrderResponses, SellOrders = sellOrderResponses };
@@ -133,12 +133,12 @@ namespace StockMarketSolution.Controllers
         }
 
         [Route("~/Trade/OrdersPDF")]
-        public IActionResult OrdersPDF()
+        public async Task<IActionResult> OrdersPDF()
         {
             //Get list of orders
             List<IOrderResponse> orders = new List<IOrderResponse>();
-            orders.AddRange(_stocksService.GetBuyOrders());
-            orders.AddRange(_stocksService.GetSellOrders());
+            orders.AddRange( await _stocksService.GetBuyOrders());
+            orders.AddRange( await _stocksService.GetSellOrders());
             orders = orders.OrderByDescending(temp => temp.DateAndTimeOfOrder).ToList();
 
             ViewBag.TradingOptions = _tradingOptions;
