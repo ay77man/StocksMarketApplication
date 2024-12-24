@@ -1,5 +1,7 @@
 using Entities;
 using Microsoft.EntityFrameworkCore;
+using Repository;
+using RepositoryContracts;
 using ServiceContracts;
 using Services;
 
@@ -11,11 +13,13 @@ namespace StocksMarket
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddControllersWithViews();
+            builder.Services.AddScoped<IFinnhubRepository, FinnhubRepository>();   
+            builder.Services.AddScoped<IStocksRepository, StocksRepository>();   
             builder.Services.AddScoped<IFinnhubService,FinnhubService>();
             builder.Services.AddScoped<IStocksService, StocksService>();
             builder.Services.AddHttpClient();
             builder.Services.Configure<TradingOptions>(builder.Configuration.GetSection("TradingOptions"));
-            builder.Services.AddDbContext<StocksDBContext>(options =>
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString"));
             });

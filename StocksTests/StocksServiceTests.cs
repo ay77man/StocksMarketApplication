@@ -14,7 +14,7 @@ namespace StocksTests
 
         public StocksServiceTests() 
         {
-            _service = new StocksService(new StocksDBContext(new DbContextOptionsBuilder<StocksDBContext>().Options)); 
+            _service = new StocksService(null); 
         }
 
         #region CreateBuyOrder

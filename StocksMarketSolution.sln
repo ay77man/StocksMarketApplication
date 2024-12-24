@@ -11,7 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "FinnhubService\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{19AA13BA-AD14-4945-B9C5-161C62BBDC37}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StocksTests", "StocksTests\StocksTests.csproj", "{ED411D50-6161-455A-ADC4-4C295716C8EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StocksTests", "StocksTests\StocksTests.csproj", "{ED411D50-6161-455A-ADC4-4C295716C8EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepositoryContracts", "RepositoryContracts\RepositoryContracts.csproj", "{D49249BF-BFE4-4DD5-8B3F-3D04239FFF97}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{2B2BD30E-CAC9-4970-BA82-89199522BF19}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,14 @@ Global
 		{ED411D50-6161-455A-ADC4-4C295716C8EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED411D50-6161-455A-ADC4-4C295716C8EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED411D50-6161-455A-ADC4-4C295716C8EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D49249BF-BFE4-4DD5-8B3F-3D04239FFF97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D49249BF-BFE4-4DD5-8B3F-3D04239FFF97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D49249BF-BFE4-4DD5-8B3F-3D04239FFF97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D49249BF-BFE4-4DD5-8B3F-3D04239FFF97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B2BD30E-CAC9-4970-BA82-89199522BF19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B2BD30E-CAC9-4970-BA82-89199522BF19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B2BD30E-CAC9-4970-BA82-89199522BF19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B2BD30E-CAC9-4970-BA82-89199522BF19}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
