@@ -16,6 +16,7 @@ namespace StockMarketSolution.Controllers
         private readonly IStocksService _stocksService;
         private readonly IFinnhubService _finnhubService;
         private readonly IConfiguration _configuration;
+        private readonly ILogger<TradeController> _logger;
 
 
         /// <summary>
@@ -25,19 +26,23 @@ namespace StockMarketSolution.Controllers
         /// <param name="stocksService">Injecting StocksService</param>
         /// <param name="finnhubService">Injecting FinnhubService</param>
         /// <param name="configuration">Injecting IConfiguration</param>
-        public TradeController(IOptions<TradingOptions> tradingOptions, IStocksService stocksService, IFinnhubService finnhubService, IConfiguration configuration)
+        public TradeController(IOptions<TradingOptions> tradingOptions, IStocksService stocksService, IFinnhubService finnhubService, IConfiguration configuration , ILogger<TradeController> logger)
         {
             _tradingOptions = tradingOptions.Value;
             _stocksService = stocksService;
             _finnhubService = finnhubService;
             _configuration = configuration;
+            _logger = logger;
         }
 
 
-        [Route("/")]
+       // [Route("/")]
         [Route("~/Trade/index")]
         public async Task<IActionResult> Index()
         {
+            _logger.LogInformation("Index of TradeContrller");
+
+
             //reset stock symbol if not exists
             if (string.IsNullOrEmpty(_tradingOptions.DefaultStockSymbol))
                 _tradingOptions.DefaultStockSymbol = "MSFT";

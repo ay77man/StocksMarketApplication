@@ -1,4 +1,5 @@
-﻿using Entities;
+﻿using Azure;
+using Entities;
 using Microsoft.EntityFrameworkCore;
 using RepositoryContracts;
 using ServiceContracts;
@@ -49,9 +50,10 @@ namespace Services
         }
 
         public async Task<List<BuyOrderResponse>> GetBuyOrders()
-        {
-            List<BuyOrder> buyOrders = await _stocksRepository.GetBuyOrders();
-
+        {   
+            
+             List<BuyOrder> buyOrders = await _stocksRepository.GetBuyOrders();
+           
             return buyOrders
                 .Select(temp=>temp.ToBuyOrderResponse()).ToList();
         }
